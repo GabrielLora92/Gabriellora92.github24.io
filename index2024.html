@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulário de Feedback</title>
+    <style>
+        body {
+            background-color: green;
+            color: black;
+            font-family: 'Eras Medium ITC', sans-serif;
+            font-size: 16px;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.5);
+            border-radius: 10px;
+            text-align: center;
+            position: relative;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        input[type="submit"] {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        .watermark {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+            opacity: 0.3;
+            background-image: url("https://img.freepik.com/vetores-premium/um-logotipo-dourado-da-letra-f-em-um-fundo-preto_853558-2502.jpg");
+            background-repeat: repeat;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2>Formulário de Feedback</h2>
+        <form id="feedbackForm" action="https://formspree.io/f/mdoqrjap" method="POST">
+            <label for="email">E-mail:</label><br>
+            <input type="email" id="email" name="email" required><br>
+            <label for="nome">Nome completo:</label><br>
+            <input type="text" id="nome" name="nome" required><br>
+            <label for="numero_pedido">Número do pedido:</label><br>
+            <input type="text" id="numero_pedido" name="numero_pedido" required><br>
+            <label for="satisfacao">Grau de satisfação:</label><br>
+            <select id="satisfacao" name="satisfacao" required>
+                <option value="1">1 estrela</option>
+                <option value="2">2 estrelas</option>
+                <option value="3">3 estrelas</option>
+                <option value="4">4 estrelas</option>
+                <option value="5">5 estrelas</option>
+            </select><br>
+            <label for="compra_nova">Faria uma nova compra:</label><br>
+            <select id="compra_nova" name="compra_nova" required>
+                <option value="sim">Sim</option>
+                <option value="nao">Não</option>
+            </select><br>
+            <label for="observacao">Observação:</label><br>
+            <textarea id="observacao" name="observacao"></textarea><br>
+            <button type="submit">Enviar</button>
+        </form>
+    </div>
+    <div class="watermark"></div>
+
+    <script>
+        document.getElementById('feedbackForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const formData = new FormData(this);
+            const formValues = Object.fromEntries(formData.entries());
+            
+            // Enviar os dados para o email usando Formspree
+            const url = 'https://formspree.io/f/mdoqrjap';
+            const options = {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify(formValues)
+            };
+        
+            fetch(url, options)
+                .then(response =>
